@@ -1,0 +1,12 @@
+
+body {
+  text-align: center;
+  margin-top: 5%;
+}
+
+img {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin: 3%;
+}
