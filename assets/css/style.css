@@ -1,3 +1,7 @@
 .projects-clean p {
   color: #000000;
 }
+
+img {
+  border-radius: 20px;
+}

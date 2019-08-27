@@ -24,12 +24,12 @@
 
 .projects-clean .intro {
   font-size: 16px;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .projects-clean .intro p {
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 
 .projects-clean .projects {
@@ -40,6 +40,12 @@
   text-align: center;
   padding-top: 50px;
   min-height: 425px;
+  border-radius: 25px;
+  background-color: #ebebeb;
+  padding: 20px;
+  margin: 5px;
+  min-width: 350px;
+  max-width: 350px;
 }
 
 .projects-clean .item .name {
@@ -54,4 +60,3 @@
   margin-top: 15px;
   margin-bottom: 0;
 }
-
