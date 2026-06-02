@@ -1,7 +1,68 @@
-.projects-clean p {
-  color: #000000;
+/* ---- Base ---- */
+body {
+  background-color: #fff;
 }
 
 img {
   border-radius: 20px;
+}
+
+/* ---- Header / masthead ---- */
+.masthead {
+  margin: 0;
+  padding: 20px;
+  background-color: #fff;
+  min-height: 700px;
+}
+
+.intro-body {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.intro-body h1 {
+  color: #000;
+  font-weight: bold;
+}
+
+.intro-body p {
+  color: #000;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 30px;
+}
+
+/* ---- Navbar ---- */
+#mainNav {
+  position: absolute;
+  background-color: transparent;
+  background-position: top;
+}
+
+#mainNav .nav-link {
+  color: #000;
+}
+
+#mainNav .navbar-toggler {
+  background-color: #a09494;
+}
+
+/* ---- Projects section ---- */
+.projects-clean {
+  padding: 30px;
+  background-color: #f4f4f4;
+}
+
+.projects-clean p {
+  color: #000;
+}
+
+/* ---- Footer ---- */
+.footer-basic {
+  margin: 5%;
 }
