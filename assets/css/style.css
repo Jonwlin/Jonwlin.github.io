@@ -10,9 +10,8 @@ img {
 /* ---- Header / masthead ---- */
 .masthead {
   margin: 0;
-  padding: 20px;
+  padding: 20px 20px 40px;
   background-color: #fff;
-  min-height: 700px;
 }
 
 .intro-body {
