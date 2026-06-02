@@ -1,10 +1,19 @@
 /* ---- Base ---- */
 body {
   background-color: #fff;
+  font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 img {
   border-radius: 20px;
+}
+
+/* ---- Typography (Grayscale theme look) ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* ---- Header / masthead ---- */
@@ -42,10 +51,16 @@ img {
   position: absolute;
   background-color: transparent;
   background-position: top;
+  font-family: 'Cabin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 #mainNav .nav-link {
   color: #000;
+  font-weight: 700;
 }
 
 #mainNav .navbar-toggler {
