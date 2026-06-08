@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { CATEGORY_ORDER, categoryLabel } from "@/lib/categories";
+import { CATEGORY_ORDER } from "@/lib/categories";
+import { CategoryTag } from "@/components/CategoryTag";
 import type { TopicMeta } from "@/lib/content";
 
 type Filter = "all" | (typeof CATEGORY_ORDER)[number];
+type View = "grid" | "list";
 
 function formatDate(iso: string): string {
   if (!iso) return "";
@@ -22,9 +24,31 @@ function formatDate(iso: string): string {
     .toLowerCase();
 }
 
+function GridIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+      <rect x="1" y="1" width="6" height="6" rx="1" />
+      <rect x="9" y="1" width="6" height="6" rx="1" />
+      <rect x="1" y="9" width="6" height="6" rx="1" />
+      <rect x="9" y="9" width="6" height="6" rx="1" />
+    </svg>
+  );
+}
+
+function ListIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+      <rect x="1" y="2" width="14" height="2" rx="1" />
+      <rect x="1" y="7" width="14" height="2" rx="1" />
+      <rect x="1" y="12" width="14" height="2" rx="1" />
+    </svg>
+  );
+}
+
 export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [view, setView] = useState<View>("grid");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -41,77 +65,135 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
   const filters: Filter[] = ["all", ...CATEGORY_ORDER];
 
   return (
-    <main className="mx-auto max-w-[860px] px-5 pb-24 pt-12">
-      {/* Header */}
-      <header className="border-b border-line pb-5">
-        <h1 className="text-[1.1rem] font-medium tracking-[-0.01em] text-ink">
-          brain dump <span className="text-muted">/ notes &amp; rabbit holes</span>
+    <main
+      className="mx-auto px-6 pb-24 pt-12"
+      style={{ width: "60vw", minWidth: "min(700px, 100%)", maxWidth: "100%" }}
+    >
+      {/* Header — no border/decoration below */}
+      <header>
+        <h1 className="text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">
+          brain dump{" "}
+          <span className="font-normal text-muted">/ notes &amp; rabbit holes</span>
         </h1>
-        <p className="mt-1 text-[0.7rem] text-muted">
+        <p className="mt-1 text-[0.8rem] text-secondary">
           things i spent too long researching
         </p>
       </header>
 
-      {/* Search + inline filters */}
-      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="search..."
-          aria-label="search entries"
-          className="w-full max-w-[220px] rounded-[3px] border border-line bg-bg px-2.5 py-1.5 text-[0.8rem] text-ink placeholder:text-faint outline-none focus:border-focus"
-        />
-
-        <div className="flex flex-wrap items-center gap-2 text-[0.7rem]">
-          {filters.map((f, i) => {
-            const active = filter === f;
-            return (
-              <span key={f} className="flex items-center gap-2">
-                {i > 0 ? <span className="text-line">|</span> : null}
+      {/* Toolbar */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-y-3">
+        {/* Left: search + filters */}
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="search..."
+            aria-label="search entries"
+            className="w-[220px] max-w-full rounded-[3px] border border-line bg-surface px-2.5 py-1.5 text-[0.75rem] text-ink placeholder:text-muted outline-none focus:border-focus"
+          />
+          <div className="flex flex-wrap items-center gap-1.5">
+            {filters.map((f) => {
+              const active = filter === f;
+              return (
                 <button
+                  key={f}
                   type="button"
                   onClick={() => setFilter(f)}
                   aria-pressed={active}
                   className={
-                    active
-                      ? "rounded-[3px] bg-ink px-1.5 py-0.5 text-bg"
-                      : "px-1.5 py-0.5 text-muted hover:text-ink"
+                    "rounded-[3px] border px-2 py-1 text-[0.75rem] font-medium transition-colors " +
+                    (active
+                      ? "border-ink bg-ink text-[#fafaf9]"
+                      : "border-divider bg-surface text-secondary hover:border-ink hover:text-ink")
                   }
                 >
-                  {f === "all" ? "all" : categoryLabel(f)}
+                  {f}
                 </button>
-              </span>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right: grid/list toggle */}
+        <div className="flex items-center rounded-[2px] bg-line p-0.5">
+          {(["grid", "list"] as View[]).map((v) => {
+            const active = view === v;
+            return (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                aria-pressed={active}
+                aria-label={`${v} view`}
+                className={
+                  "flex h-6 w-7 items-center justify-center rounded-[2px] transition-colors " +
+                  (active
+                    ? "bg-surface text-ink"
+                    : "bg-transparent text-muted hover:text-ink")
+                }
+              >
+                {v === "grid" ? <GridIcon /> : <ListIcon />}
+              </button>
             );
           })}
         </div>
       </div>
 
       {/* Entry count */}
-      <p className="mt-5 text-[0.65rem] text-faint">
+      <p className="mt-6 text-[0.75rem] text-muted">
         {filtered.length} {filtered.length === 1 ? "entry" : "entries"}
       </p>
 
-      {/* List (not a grid) */}
+      {/* Results */}
       {filtered.length === 0 ? (
         <p className="py-20 text-center text-[0.8rem] text-muted">nothing here.</p>
-      ) : (
-        <ul className="mt-1 border-t border-line-soft">
+      ) : view === "grid" ? (
+        <div className="mt-3 grid grid-cols-3 gap-4 max-[900px]:grid-cols-2 max-[600px]:grid-cols-1">
           {filtered.map((t) => (
-            <li key={t.slug} className="border-b border-line-soft">
-              <Link href={`/${t.slug}`} className="block px-2 py-4 hover:bg-line-soft">
-                <div className="flex items-center justify-between text-[0.65rem] text-faint">
-                  <span>{t.category}</span>
-                  <time dateTime={t.date}>{formatDate(t.date)}</time>
-                </div>
-                <h2 className="mt-1.5 text-[0.9rem] font-medium text-ink">
-                  {t.title}
-                </h2>
-                <p className="mt-1 text-[0.8rem] text-muted">{t.description}</p>
-              </Link>
-            </li>
+            <Link
+              key={t.slug}
+              href={`/${t.slug}`}
+              className="flex min-h-[140px] flex-col rounded-[4px] border border-line bg-surface px-6 py-5 transition-colors hover:border-edge hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+            >
+              <div className="flex items-center justify-between">
+                <CategoryTag category={t.category} />
+                <time className="text-[0.7rem] text-muted" dateTime={t.date}>
+                  {formatDate(t.date)}
+                </time>
+              </div>
+              <h2 className="mb-2 mt-3 text-[0.9rem] font-semibold leading-[1.4] text-ink">
+                {t.title}
+              </h2>
+              <p className="line-clamp-3 text-[0.75rem] leading-[1.55] text-secondary">
+                {t.description}
+              </p>
+            </Link>
           ))}
-        </ul>
+        </div>
+      ) : (
+        <div className="mt-3 border-t border-line">
+          {filtered.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/${t.slug}`}
+              className="block border-b border-line bg-surface px-4 py-4 transition-colors hover:bg-[#fafaf9]"
+            >
+              <div className="flex items-center justify-between">
+                <CategoryTag category={t.category} />
+                <time className="text-[0.7rem] text-muted" dateTime={t.date}>
+                  {formatDate(t.date)}
+                </time>
+              </div>
+              <h2 className="mb-1 mt-2 text-[0.9rem] font-semibold leading-[1.4] text-ink">
+                {t.title}
+              </h2>
+              <p className="text-[0.75rem] leading-[1.55] text-secondary">
+                {t.description}
+              </p>
+            </Link>
+          ))}
+        </div>
       )}
     </main>
   );

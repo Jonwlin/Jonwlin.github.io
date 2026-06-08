@@ -8,16 +8,16 @@
 
 html,
 body {
-  background-color: #fafaf9; /* stone-50 */
+  background-color: #f5f5f4; /* stone-100 */
   color: #44403c; /* stone-700 */
   font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Selection uses the one accent color allowed (purple-200). */
+/* The one accent: violet-200 selection highlight. */
 ::selection {
-  background-color: #e9d5ff;
+  background-color: #ddd6fe; /* violet-200 */
 }
 
 /* ------------------------------------------------------------------ */
@@ -25,37 +25,34 @@ body {
 /* ------------------------------------------------------------------ */
 .prose-bd {
   font-size: 0.8rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #44403c; /* stone-700 */
 }
 
 .prose-bd h2 {
-  margin-top: 2rem;
-  margin-bottom: 0.6rem;
+  margin: 2.5rem 0 0.75rem;
   font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
   color: #1c1917; /* stone-900 */
 }
 
 .prose-bd h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.4rem;
+  margin: 1.75rem 0 0.5rem;
   font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
   color: #1c1917;
 }
 
 .prose-bd p {
-  margin: 0.8rem 0;
+  margin-bottom: 1rem;
+  color: #44403c; /* stone-700 */
+  line-height: 1.7;
 }
 
 .prose-bd ul,
 .prose-bd ol {
-  margin: 0.8rem 0;
+  margin-bottom: 1rem;
   padding-left: 1.25rem;
-  color: #44403c; /* stone-700 */
 }
 
 .prose-bd ul {
@@ -67,7 +64,10 @@ body {
 }
 
 .prose-bd li {
-  margin: 0.3rem 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #44403c; /* stone-700 */
 }
 
 .prose-bd a {
@@ -83,23 +83,52 @@ body {
 
 .prose-bd strong {
   font-weight: 600;
-  color: #1c1917;
+  color: #1c1917; /* stone-900 */
 }
 
-/* Tips / pro-tips — plain gray left rule, italic, no background. */
+/* Tables — plain notes table; winner rows are prefixed with ⭐ in content. */
+.prose-bd table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.75rem;
+}
+
+.prose-bd th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid #d6d3d1; /* stone-300 */
+  color: #44403c; /* stone-700 */
+  font-weight: 600;
+}
+
+.prose-bd td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #e7e5e4; /* stone-200 */
+  color: #44403c; /* stone-700 */
+}
+
+.prose-bd tbody tr:hover {
+  background-color: #fafaf9; /* stone-50 */
+}
+
+/* Blockquotes — used for tips/warnings (no custom callout component). */
 .prose-bd blockquote {
   margin: 1.25rem 0;
-  padding-left: 0.9rem;
-  border-left: 2px solid #d6d3d1; /* stone-300 */
-  color: #78716c; /* stone-500 */
+  padding: 0.75rem 1rem 0.75rem 1.25rem;
+  border-left: 3px solid #a8a29e; /* stone-400 */
+  border-radius: 0 3px 3px 0;
+  background-color: #fafaf9; /* stone-50 */
+  color: #57534e; /* stone-600 */
   font-style: italic;
 }
 
 .prose-bd blockquote p {
-  margin: 0.4rem 0;
+  margin: 0.3rem 0;
+  color: #57534e;
 }
 
-/* Inline code — quiet, no neon. */
+/* Inline code + code blocks — quiet, no neon. */
 .prose-bd code {
   background: #f5f5f4; /* stone-100 */
   border: 1px solid #e7e5e4; /* stone-200 */
