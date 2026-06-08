@@ -10,3 +10,24 @@
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node / dependencies
+node_modules/
+.npm
+
+# Next.js build artifacts (source app lives in brain-dump-app/)
+.next/
+brain-dump-app/out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# NOTE: brain-dump/ (the exported static site) IS committed on purpose —
+# GitHub Pages serves it at /brain-dump/. Do not ignore it.

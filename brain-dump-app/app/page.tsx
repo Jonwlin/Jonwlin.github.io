@@ -1,0 +1,7 @@
+import BrainDumpIndex from "@/components/BrainDumpIndex";
+import { getAllTopicMeta } from "@/lib/content";
+
+export default function Page() {
+  const topics = getAllTopicMeta();
+  return <BrainDumpIndex topics={topics} />;
+}
