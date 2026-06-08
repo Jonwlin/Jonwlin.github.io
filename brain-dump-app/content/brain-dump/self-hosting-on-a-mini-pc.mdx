@@ -1,0 +1,61 @@
+---
+title: "Self-Hosting on a $150 Mini PC"
+slug: "self-hosting-on-a-mini-pc"
+emoji: "💻"
+category: "tech"
+description: "Replaced three SaaS subscriptions with a fanless mini PC running Docker. Here's the stack, the gotchas, and whether it's worth it."
+tags: ["homelab", "docker", "linux", "self-hosting"]
+date: "2025-05-20"
+---
+
+<TLDR>
+A used **Beelink/Intel N100 mini PC** plus Docker Compose can replace Dropbox, a password manager subscription, and a read-it-later app for a one-time ~$150. Worth it if you enjoy tinkering; skip it if you want zero maintenance.
+</TLDR>
+
+## The hardware
+
+I picked an Intel N100 box: 16GB RAM, 500GB NVMe, fanless, sips ~6W idle. That's enough to run a dozen lightweight containers without breaking a sweat.
+
+## The stack
+
+Everything runs as Docker Compose services behind a single reverse proxy:
+
+- **Caddy** — automatic HTTPS + reverse proxy
+- **Immich** — self-hosted Google Photos replacement
+- **Vaultwarden** — Bitwarden-compatible password server
+- **Nextcloud** — file sync / Dropbox replacement
+- **Uptime Kuma** — status monitoring for everything else
+
+```yaml
+services:
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+```
+
+## Is it actually worth it?
+
+<ProsCons
+  pros={[
+    "One-time cost replaces ~$20/mo of subscriptions",
+    "Your data stays on your hardware",
+    "Genuinely fun to learn Docker / networking",
+  ]}
+  cons={[
+    "You are now the on-call sysadmin",
+    "Backups are your problem (3-2-1 or you'll cry)",
+    "A power outage = downtime",
+  ]}
+/>
+
+<Callout title="Backups are non-negotiable">
+Self-hosting without backups isn't self-hosting, it's a countdown. Use restic or Borg to push encrypted snapshots off-site (a cheap object-storage bucket works great).
+</Callout>
+
+## Verdict
+
+If the words "Docker Compose" make you curious rather than tired, do it. The N100 class of mini PC is the sweet spot for 2025.
