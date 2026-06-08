@@ -8,7 +8,6 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "brain-dump");
 export type TopicMeta = {
   title: string;
   slug: string;
-  emoji: string;
   category: CategoryKey;
   description: string;
   tags: string[];
@@ -28,7 +27,6 @@ function readTopicFile(fileName: string): Topic {
   return {
     title: data.title ?? slug,
     slug,
-    emoji: data.emoji ?? "🧠",
     category: (data.category ?? "reviews") as CategoryKey,
     description: data.description ?? "",
     tags: Array.isArray(data.tags) ? data.tags : [],

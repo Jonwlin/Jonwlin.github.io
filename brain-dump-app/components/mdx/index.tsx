@@ -1,35 +1,13 @@
 import type { ReactNode } from "react";
 
 /* ------------------------------------------------------------------ */
-/* TL;DR callout                                                       */
+/* Aside — the "short version" box. Just a quiet gray box, no label.   */
+/* Used instead of a TL;DR callout.                                    */
 /* ------------------------------------------------------------------ */
-export function TLDR({ children }: { children: ReactNode }) {
+export function Aside({ children }: { children: ReactNode }) {
   return (
-    <div className="my-6 rounded-xl border border-[#667eea]/40 bg-[#667eea]/10 p-4">
-      <div className="mb-1 text-sm font-bold uppercase tracking-wide text-[#a5b4ff]">
-        ⚡ TL;DR
-      </div>
-      <div className="text-[#dcdce4] [&>p]:my-1">{children}</div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Callout (tip / warning)                                            */
-/* ------------------------------------------------------------------ */
-export function Callout({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title?: string;
-}) {
-  return (
-    <div className="my-6 rounded-r-lg border-l-4 border-[#667eea] bg-[#16161f] px-4 py-3">
-      {title ? (
-        <div className="mb-1 font-bold text-[#c7d0ff]">{title}</div>
-      ) : null}
-      <div className="text-[#cfcfd6] [&>p]:my-1">{children}</div>
+    <div className="my-5 rounded-[3px] bg-surface p-4 text-[0.8rem] text-body [&>p]:my-1 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+      {children}
     </div>
   );
 }
@@ -43,6 +21,8 @@ export function Callout({
 /*       { cells: ["Other", "OK", "$20"] },                          */
 /*     ]}                                                             */
 /*   />                                                               */
+/* Renders as a plain, full-width notes table. Winner row gets a ⭐    */
+/* in its first cell.                                                 */
 /* ------------------------------------------------------------------ */
 type ComparisonRow = { cells: ReactNode[]; winner?: boolean };
 
@@ -54,14 +34,14 @@ export function ComparisonTable({
   rows: ComparisonRow[];
 }) {
   return (
-    <div className="my-6 overflow-x-auto rounded-xl border border-[#2a2a3a]">
-      <table className="w-full border-collapse text-sm">
+    <div className="my-5 overflow-x-auto">
+      <table className="w-full border-collapse text-[0.75rem]">
         <thead>
-          <tr className="bg-[#20202c]">
+          <tr>
             {headers.map((h, i) => (
               <th
                 key={i}
-                className="px-4 py-3 text-left font-bold text-[#e9e9f1]"
+                className="border-b border-[#d6d3d1] px-2 py-1.5 text-left font-medium text-muted"
               >
                 {h}
               </th>
@@ -70,21 +50,13 @@ export function ComparisonTable({
         </thead>
         <tbody>
           {rows.map((row, r) => (
-            <tr
-              key={r}
-              className={
-                row.winner
-                  ? "border-t border-[#2a2a3a] bg-[#667eea]/12 transition-colors hover:bg-[#667eea]/20"
-                  : "border-t border-[#2a2a3a] transition-colors hover:bg-[#ffffff0a]"
-              }
-            >
+            <tr key={r} className="hover:bg-line-soft">
               {row.cells.map((c, i) => (
-                <td key={i} className="px-4 py-3 text-[#cfcfd6]">
-                  {row.winner && i === 0 ? (
-                    <span className="font-semibold text-white">⭐ {c}</span>
-                  ) : (
-                    c
-                  )}
+                <td
+                  key={i}
+                  className="border-b border-line-soft px-2 py-1.5 text-body"
+                >
+                  {row.winner && i === 0 ? <>⭐ {c}</> : c}
                 </td>
               ))}
             </tr>
@@ -96,43 +68,9 @@ export function ComparisonTable({
 }
 
 /* ------------------------------------------------------------------ */
-/* ProsCons                                                           */
-/* ------------------------------------------------------------------ */
-export function ProsCons({
-  pros,
-  cons,
-}: {
-  pros: ReactNode[];
-  cons: ReactNode[];
-}) {
-  return (
-    <div className="my-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-4">
-        <div className="mb-2 font-bold text-green-400">✅ Pros</div>
-        <ul className="list-disc space-y-1 pl-5 text-[#cfcfd6]">
-          {pros.map((p, i) => (
-            <li key={i}>{p}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-4">
-        <div className="mb-2 font-bold text-red-400">❌ Cons</div>
-        <ul className="list-disc space-y-1 pl-5 text-[#cfcfd6]">
-          {cons.map((c, i) => (
-            <li key={i}>{c}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Component map handed to <MDXRemote />                              */
 /* ------------------------------------------------------------------ */
 export const mdxComponents = {
-  TLDR,
-  Callout,
+  Aside,
   ComparisonTable,
-  ProsCons,
 };
