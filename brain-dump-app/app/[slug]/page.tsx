@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
 import { getAllSlugs, getTopicBySlug } from "@/lib/content";
+import { CategoryTag } from "@/components/CategoryTag";
 import { mdxComponents } from "@/components/mdx";
 
 // Pre-render one static page per topic; reject anything not in the set.
@@ -44,28 +46,36 @@ export default function TopicPage({ params }: { params: { slug: string } }) {
   if (!topic) notFound();
 
   return (
-    <main className="mx-auto max-w-[640px] px-5 pb-24 pt-12">
-      <Link href="/" className="text-[0.7rem] text-faint hover:text-ink">
+    <main className="mx-auto max-w-[640px] px-8 py-12">
+      <Link
+        href="/"
+        className="text-[0.75rem] font-medium text-secondary hover:text-ink"
+      >
         ← back
       </Link>
 
       <header className="mt-8">
-        <div className="text-[0.7rem] text-faint">
-          {topic.category} · {formatDate(topic.date)}
+        <div className="flex items-center gap-3">
+          <CategoryTag category={topic.category} />
+          <time className="text-[0.7rem] text-muted" dateTime={topic.date}>
+            {formatDate(topic.date)}
+          </time>
         </div>
 
-        <h1 className="mt-2 text-[1.3rem] font-semibold leading-tight tracking-[-0.02em] text-ink">
+        <h1 className="mt-3 text-[1.4rem] font-semibold leading-[1.3] tracking-[-0.02em] text-ink">
           {topic.title}
         </h1>
 
         {topic.description ? (
-          <p className="mt-2 text-[0.85rem] text-muted">{topic.description}</p>
+          <p className="mt-2 text-[0.85rem] leading-[1.5] text-secondary">
+            {topic.description}
+          </p>
         ) : null}
 
         {topic.tags.length > 0 ? (
-          <div className="mt-3 text-[0.7rem] text-faint">
+          <div className="mt-3 text-[0.7rem] font-medium text-muted">
             {topic.tags.map((tag) => (
-              <span key={tag} className="mr-2">
+              <span key={tag} className="mr-3">
                 #{tag}
               </span>
             ))}
@@ -73,8 +83,13 @@ export default function TopicPage({ params }: { params: { slug: string } }) {
         ) : null}
       </header>
 
-      <article className="prose-bd mt-8">
-        <MDXRemote source={topic.content} components={mdxComponents} />
+      {/* Spacer before content */}
+      <article className="prose-bd mt-10">
+        <MDXRemote
+          source={topic.content}
+          components={mdxComponents}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </article>
     </main>
   );
