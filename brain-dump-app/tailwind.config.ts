@@ -9,14 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#0a0a0a",
-        card: "#1a1a1a",
-        "purple-grad-from": "#667eea",
-        "purple-grad-to": "#764ba2",
-        accent: "#667eea",
+        // Warm, minimal "personal notes" palette (Tailwind stone scale).
+        bg: "#fafaf9", // stone-50  — page background
+        ink: "#1c1917", // stone-900 — primary text / headings
+        body: "#44403c", // stone-700 — body copy
+        muted: "#78716c", // stone-500 — meta / labels
+        faint: "#a8a29e", // stone-400 — dates / category labels
+        line: "#e7e5e4", // stone-200 — borders
+        "line-soft": "#f5f5f4", // stone-100 — list separators / hover
+        surface: "#f5f5f4", // stone-100 — aside / surface
+        focus: "#e9d5ff", // purple-200 — selection + input focus only
       },
-      boxShadow: {
-        glow: "0 8px 30px rgba(102, 126, 234, 0.25)",
+      fontFamily: {
+        mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
       },
     },
   },

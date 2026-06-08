@@ -2,35 +2,24 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { CATEGORY_ORDER, CATEGORIES, categoryMeta } from "@/lib/categories";
+import { CATEGORY_ORDER, categoryLabel } from "@/lib/categories";
 import type { TopicMeta } from "@/lib/content";
 
 type Filter = "all" | (typeof CATEGORY_ORDER)[number];
-
-function CategoryBadge({ category }: { category: string }) {
-  const meta = categoryMeta(category);
-  if (!meta) return null;
-  return (
-    <span
-      className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold"
-      style={{ backgroundColor: `${meta.color}22`, color: meta.color }}
-    >
-      {meta.label}
-    </span>
-  );
-}
 
 function formatDate(iso: string): string {
   if (!iso) return "";
   // Parse as UTC to avoid timezone drift in static output.
   const d = new Date(`${iso}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return d
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    })
+    .toLowerCase();
 }
 
 export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
@@ -42,109 +31,87 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
     return topics.filter((t) => {
       if (filter !== "all" && t.category !== filter) return false;
       if (!q) return true;
-      const haystack = [
-        t.title,
-        t.description,
-        ...t.tags,
-        categoryMeta(t.category)?.label ?? t.category,
-      ]
+      const haystack = [t.title, t.description, ...t.tags, t.category]
         .join(" ")
         .toLowerCase();
       return haystack.includes(q);
     });
   }, [topics, query, filter]);
 
-  const pills: { key: Filter; label: string }[] = [
-    { key: "all", label: "All" },
-    ...CATEGORY_ORDER.map((k) => ({ key: k, label: CATEGORIES[k].label })),
-  ];
+  const filters: Filter[] = ["all", ...CATEGORY_ORDER];
 
   return (
-    <main className="mx-auto max-w-6xl px-5 py-12">
+    <main className="mx-auto max-w-[860px] px-5 pb-24 pt-12">
       {/* Header */}
-      <header className="mb-8 text-center">
-        <h1 className="gradient-text text-4xl font-extrabold sm:text-5xl">
-          🧠 Brain Dump
+      <header className="border-b border-line pb-5">
+        <h1 className="text-[1.1rem] font-medium tracking-[-0.01em] text-ink">
+          brain dump <span className="text-muted">/ notes &amp; rabbit holes</span>
         </h1>
-        <p className="mt-3 text-lg text-[#9a9aa5]">
-          Guides, reviews, and rabbit holes.
+        <p className="mt-1 text-[0.7rem] text-muted">
+          things i spent too long researching
         </p>
       </header>
 
-      {/* Search */}
-      <div className="mx-auto mb-5 max-w-2xl">
+      {/* Search + inline filters */}
+      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search titles, descriptions, tags…"
-          aria-label="Search topics"
-          className="w-full rounded-xl border border-[#2a2a3a] bg-[#141420] px-4 py-3 text-[#e7e7ea] placeholder-[#6b6b78] outline-none transition focus:border-[#667eea] focus:ring-2 focus:ring-[#667eea]/40"
+          placeholder="search..."
+          aria-label="search entries"
+          className="w-full max-w-[220px] rounded-[3px] border border-line bg-bg px-2.5 py-1.5 text-[0.8rem] text-ink placeholder:text-faint outline-none focus:border-focus"
         />
+
+        <div className="flex flex-wrap items-center gap-2 text-[0.7rem]">
+          {filters.map((f, i) => {
+            const active = filter === f;
+            return (
+              <span key={f} className="flex items-center gap-2">
+                {i > 0 ? <span className="text-line">|</span> : null}
+                <button
+                  type="button"
+                  onClick={() => setFilter(f)}
+                  aria-pressed={active}
+                  className={
+                    active
+                      ? "rounded-[3px] bg-ink px-1.5 py-0.5 text-bg"
+                      : "px-1.5 py-0.5 text-muted hover:text-ink"
+                  }
+                >
+                  {f === "all" ? "all" : categoryLabel(f)}
+                </button>
+              </span>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Filter pills */}
-      <div className="mb-6 flex flex-wrap justify-center gap-2">
-        {pills.map((p) => {
-          const active = filter === p.key;
-          return (
-            <button
-              key={p.key}
-              type="button"
-              onClick={() => setFilter(p.key)}
-              aria-pressed={active}
-              className={
-                active
-                  ? "rounded-full bg-[#667eea] px-4 py-1.5 text-sm font-semibold text-white transition"
-                  : "rounded-full border border-[#2f2f40] bg-[#16161f] px-4 py-1.5 text-sm font-medium text-[#b6b6c2] transition hover:border-[#667eea]/60 hover:text-white"
-              }
-            >
-              {p.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Result count */}
-      <p className="mb-4 text-center text-sm text-[#7c7c88]">
-        {filtered.length} {filtered.length === 1 ? "topic" : "topics"}
+      {/* Entry count */}
+      <p className="mt-5 text-[0.65rem] text-faint">
+        {filtered.length} {filtered.length === 1 ? "entry" : "entries"}
       </p>
 
-      {/* Grid / empty state */}
+      {/* List (not a grid) */}
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-[#2a2a3a] py-16 text-center text-[#8a8a96]">
-          <div className="mb-2 text-3xl">🔍</div>
-          No matches found.
-        </div>
+        <p className="py-20 text-center text-[0.8rem] text-muted">nothing here.</p>
       ) : (
-        <div
-          className="grid gap-5"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          }}
-        >
+        <ul className="mt-1 border-t border-line-soft">
           {filtered.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/${t.slug}`}
-              className="group block rounded-2xl border border-[#262633] bg-card p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#667eea] hover:shadow-glow"
-            >
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <CategoryBadge category={t.category} />
-                <time className="text-xs text-[#6f6f7b]" dateTime={t.date}>
-                  {formatDate(t.date)}
-                </time>
-              </div>
-              <h2 className="mb-1.5 text-[1.1rem] font-bold leading-snug text-[#f3f3f6]">
-                <span className="mr-1">{t.emoji}</span>
-                {t.title}
-              </h2>
-              <p className="line-clamp-3 text-sm text-[#9a9aa5]">
-                {t.description}
-              </p>
-            </Link>
+            <li key={t.slug} className="border-b border-line-soft">
+              <Link href={`/${t.slug}`} className="block px-2 py-4 hover:bg-line-soft">
+                <div className="flex items-center justify-between text-[0.65rem] text-faint">
+                  <span>{t.category}</span>
+                  <time dateTime={t.date}>{formatDate(t.date)}</time>
+                </div>
+                <h2 className="mt-1.5 text-[0.9rem] font-medium text-ink">
+                  {t.title}
+                </h2>
+                <p className="mt-1 text-[0.8rem] text-muted">{t.description}</p>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </main>
   );

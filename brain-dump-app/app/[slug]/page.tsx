@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import { getAllSlugs, getTopicBySlug } from "@/lib/content";
-import { categoryMeta } from "@/lib/categories";
 import { mdxComponents } from "@/components/mdx";
 
 // Pre-render one static page per topic; reject anything not in the set.
@@ -19,9 +18,9 @@ export function generateMetadata({
   params: { slug: string };
 }): Metadata {
   const topic = getTopicBySlug(params.slug);
-  if (!topic) return { title: "Not found — Brain Dump" };
+  if (!topic) return { title: "not found — brain dump" };
   return {
-    title: `${topic.emoji} ${topic.title} — Brain Dump`,
+    title: `${topic.title} — brain dump`,
     description: topic.description,
   };
 }
@@ -30,61 +29,43 @@ function formatDate(iso: string): string {
   if (!iso) return "";
   const d = new Date(`${iso}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return d
+    .toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    })
+    .toLowerCase();
 }
 
 export default function TopicPage({ params }: { params: { slug: string } }) {
   const topic = getTopicBySlug(params.slug);
   if (!topic) notFound();
 
-  const cat = categoryMeta(topic.category);
-
   return (
-    <main className="mx-auto max-w-[750px] px-5 py-10">
-      <Link
-        href="/"
-        className="inline-block text-sm text-[#9aa6ff] transition hover:text-white"
-      >
-        ← Back to Brain Dump
+    <main className="mx-auto max-w-[640px] px-5 pb-24 pt-12">
+      <Link href="/" className="text-[0.7rem] text-faint hover:text-ink">
+        ← back
       </Link>
 
-      <header className="mt-6">
-        <div className="text-5xl leading-none">{topic.emoji}</div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          {cat ? (
-            <span
-              className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold"
-              style={{ backgroundColor: `${cat.color}22`, color: cat.color }}
-            >
-              {cat.label}
-            </span>
-          ) : null}
-          <time className="text-sm text-[#7c7c88]" dateTime={topic.date}>
-            {formatDate(topic.date)}
-          </time>
+      <header className="mt-8">
+        <div className="text-[0.7rem] text-faint">
+          {topic.category} · {formatDate(topic.date)}
         </div>
 
-        <h1 className="mt-3 text-[2rem] font-extrabold leading-tight text-[#f5f5f7]">
+        <h1 className="mt-2 text-[1.3rem] font-semibold leading-tight tracking-[-0.02em] text-ink">
           {topic.title}
         </h1>
 
         {topic.description ? (
-          <p className="mt-2 text-[#9a9aa5]">{topic.description}</p>
+          <p className="mt-2 text-[0.85rem] text-muted">{topic.description}</p>
         ) : null}
 
         {topic.tags.length > 0 ? (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 text-[0.7rem] text-faint">
             {topic.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-[#2f2f40] bg-[#16161f] px-2.5 py-0.5 text-xs text-[#9b9bab]"
-              >
+              <span key={tag} className="mr-2">
                 #{tag}
               </span>
             ))}
@@ -92,9 +73,7 @@ export default function TopicPage({ params }: { params: { slug: string } }) {
         ) : null}
       </header>
 
-      <hr className="my-7 border-[#26263300] border-t border-[#262633]" />
-
-      <article className="prose-bd">
+      <article className="prose-bd mt-8">
         <MDXRemote source={topic.content} components={mdxComponents} />
       </article>
     </main>
