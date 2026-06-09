@@ -70,13 +70,19 @@ npm run dev          # http://localhost:3000/brain-dump
 
 ## Build & deploy to GitHub Pages
 
+Deploys are automated. **GitHub Actions** (`.github/workflows/deploy.yml`)
+builds the whole site and publishes it on every push to `master`; Pages
+**Source** is set to "GitHub Actions". You only commit source — the static
+export is built by CI and is **not** committed (`brain-dump/` is git-ignored).
+
+To verify the static export builds locally:
+
 ```bash
-npm run deploy       # builds, then copies out/ -> ../brain-dump/ (+ .nojekyll)
+npm run build        # produces ./out (git-ignored)
 ```
 
-Then commit the generated `../brain-dump/` folder. GitHub Pages serves it at
-`/brain-dump/`. The `.nojekyll` file is required so the `_next/` asset folder
-isn't stripped by Jekyll.
+GitHub Pages serves the result at `/brain-dump/` (the app sets
+`basePath: /brain-dump`).
 
 > Want to host the detail pages on Vercel instead? This is a standard Next.js
 > app — remove `output: 'export'` / `basePath` from `next.config.mjs`, point

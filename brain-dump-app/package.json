@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "deploy": "next build && rm -rf ../brain-dump && cp -r out ../brain-dump && touch ../brain-dump/.nojekyll && echo 'Exported to ../brain-dump'",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
