@@ -24,10 +24,11 @@ brain-dump-app/out/
 *.tsbuildinfo
 next-env.d.ts
 
+# Built static site — produced and deployed by GitHub Actions
+# (.github/workflows/deploy.yml), never committed.
+brain-dump/
+
 # Environment files
 .env
 .env.*
 !.env.example
-
-# NOTE: brain-dump/ (the exported static site) IS committed on purpose —
-# GitHub Pages serves it at /brain-dump/. Do not ignore it.

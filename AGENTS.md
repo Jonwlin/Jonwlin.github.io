@@ -42,14 +42,20 @@ These rules are mandatory. Do not bypass them.
 
 ## Brain Dump: build & deploy
 
+The site is **built and deployed by GitHub Actions** on every push to `master`
+(`.github/workflows/deploy.yml`). You no longer build or commit the static
+output — just edit source and merge.
+
 After editing `brain-dump-app/` source or `content/brain-dump/*.mdx`:
 
 ```bash
 cd brain-dump-app
-npm install      # first time only
-npm run deploy   # rebuilds and refreshes ../brain-dump/ (the served output)
+npm install          # first time only
+npm run dev          # http://localhost:3000/brain-dump (local preview)
+npm run build        # optional: verify the static export builds (-> out/)
 ```
 
-Then commit both the source changes and the regenerated `brain-dump/` output.
-The `.nojekyll` file at the repo root must stay — it lets GitHub Pages serve
-the `_next/` asset folder.
+Commit **only** the source changes. The build output (`brain-dump-app/out/`
+and the deployed `brain-dump/`) is git-ignored and produced by CI — never
+commit it. Pages **Source** is set to "GitHub Actions" (not "Deploy from a
+branch").
