@@ -69,6 +69,15 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
       className="mx-auto px-6 pb-24 pt-12"
       style={{ width: "60vw", minWidth: "min(700px, 100%)", maxWidth: "100%" }}
     >
+      {/* Back to the main site. Raw <a> so Next's basePath ("/brain-dump")
+          is NOT prepended — this must hit the site root, not the grid. */}
+      <a
+        href="/"
+        className="mb-6 inline-block text-[0.75rem] font-medium text-secondary hover:text-ink"
+      >
+        ← home
+      </a>
+
       {/* Header — no border/decoration below */}
       <header>
         <h1 className="text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">
