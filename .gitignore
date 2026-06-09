@@ -18,15 +18,15 @@ yarn-error.log*
 node_modules/
 .npm
 
-# Next.js build artifacts (source app lives in brain-dump-app/)
+# Next.js build artifacts (source app lives in apps/brain-dump/)
 .next/
-brain-dump-app/out/
+apps/brain-dump/out/
 *.tsbuildinfo
 next-env.d.ts
 
-# Built static site — produced and deployed by GitHub Actions
+# Assembled static site — produced and deployed by GitHub Actions
 # (.github/workflows/deploy.yml), never committed.
-brain-dump/
+_site/
 
 # Environment files
 .env

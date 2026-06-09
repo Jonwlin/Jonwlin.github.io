@@ -7,10 +7,14 @@ Guidance for AI agents (and humans) working in this repository.
 Personal website for Jonathan W. Lin, served via **GitHub Pages** at
 `https://jonwlin.github.io/`.
 
-- **Homepage:** static `index.html` (Bootstrap "Grayscale" theme) + `assets/`.
+The repo root is **source-only**; the published site is assembled and deployed
+by GitHub Actions. All source lives under `apps/`:
+
+- **Homepage:** static `apps/homepage/index.html` (Bootstrap "Grayscale" theme)
+  + `apps/homepage/assets/`. Served at `/`.
 - **Brain Dump:** a Next.js 14 (App Router) + Tailwind + MDX app in
-  `brain-dump-app/`, **statically exported** into `brain-dump/`, which GitHub
-  Pages serves at `/brain-dump/`. See `brain-dump-app/README.md` for details.
+  `apps/brain-dump/`, **statically exported** (basePath `/brain-dump`) and served
+  at `/brain-dump/`. See `apps/brain-dump/README.md` for details.
 
 ## Git & PR workflow — REQUIRED
 
@@ -46,16 +50,15 @@ The site is **built and deployed by GitHub Actions** on every push to `master`
 (`.github/workflows/deploy.yml`). You no longer build or commit the static
 output — just edit source and merge.
 
-After editing `brain-dump-app/` source or `content/brain-dump/*.mdx`:
+After editing `apps/brain-dump/` source or `apps/brain-dump/content/brain-dump/*.mdx`:
 
 ```bash
-cd brain-dump-app
+cd apps/brain-dump
 npm install          # first time only
 npm run dev          # http://localhost:3000/brain-dump (local preview)
 npm run build        # optional: verify the static export builds (-> out/)
 ```
 
-Commit **only** the source changes. The build output (`brain-dump-app/out/`
-and the deployed `brain-dump/`) is git-ignored and produced by CI — never
-commit it. Pages **Source** is set to "GitHub Actions" (not "Deploy from a
-branch").
+Commit **only** the source changes. Build output (`apps/brain-dump/out/`) and the
+CI assembly dir (`_site/`) are git-ignored and produced by CI — never commit
+them. Pages **Source** is set to "GitHub Actions" (not "Deploy from a branch").
