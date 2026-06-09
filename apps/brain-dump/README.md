@@ -12,7 +12,7 @@ https://jonwlin.github.io/brain-dump/
 ## Project layout
 
 ```
-brain-dump-app/
+apps/brain-dump/
 ├── app/
 │   ├── layout.tsx          # root layout + dark theme
 │   ├── page.tsx            # /brain-dump index (server -> client grid)
@@ -73,7 +73,7 @@ npm run dev          # http://localhost:3000/brain-dump
 Deploys are automated. **GitHub Actions** (`.github/workflows/deploy.yml`)
 builds the whole site and publishes it on every push to `master`; Pages
 **Source** is set to "GitHub Actions". You only commit source — the static
-export is built by CI and is **not** committed (`brain-dump/` is git-ignored).
+export is built by CI and is **not** committed (`out/` is git-ignored).
 
 To verify the static export builds locally:
 

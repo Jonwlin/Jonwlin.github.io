@@ -2,68 +2,64 @@
 
 Jonathan W. Lin's personal website — [jonwlin.github.io](https://jonwlin.github.io).
 
-It's two pieces served together by **GitHub Pages**:
+It's two pieces served together by **GitHub Pages**. The repo root is
+**source-only** — all source lives under `apps/`, and GitHub Actions assembles
+and deploys the published site (no build output is committed):
 
-1. A hand-written static **homepage** (`index.html` + `assets/`).
-2. **🧠 Brain Dump** (`/brain-dump/`) — a Next.js app of guides, reviews, and
-   write-ups, statically exported.
+1. A hand-written static **homepage** (`apps/homepage/`), served at `/`.
+2. **🧠 Brain Dump** (`apps/brain-dump/`) — a Next.js app of guides, reviews, and
+   write-ups, statically exported and served at `/brain-dump/`.
 
 ## Repository map
 
 ```
 .
-├── index.html              # the homepage (single page)
-├── assets/                 # homepage assets
-│   ├── css/style.css       # all homepage styles (one consolidated file)
-│   ├── bootstrap/          # vendored Bootstrap 5 (CSS + JS)
-│   ├── fonts/              # Font Awesome webfonts
-│   ├── img/                # images + favicon
-│   └── docs/               # downloadable docs (e.g. project papers)
+├── apps/
+│   ├── homepage/             # static homepage SOURCE
+│   │   ├── index.html        # the homepage (single page)
+│   │   └── assets/
+│   │       ├── css/style.css # all homepage styles (one consolidated file)
+│   │       ├── bootstrap/    # vendored Bootstrap 5 (CSS + JS)
+│   │       ├── fonts/        # Font Awesome webfonts
+│   │       ├── img/          # images + favicon
+│   │       └── docs/         # downloadable docs (e.g. project papers)
+│   │
+│   └── brain-dump/           # Next.js SOURCE for Brain Dump
+│       ├── app/              # App Router pages, layout, favicon, globals.css
+│       ├── components/       # UI + MDX components
+│       ├── content/brain-dump/ # one .mdx file per topic  ← write content here
+│       └── lib/              # content loading + category metadata
 │
-├── brain-dump-app/         # Next.js SOURCE for Brain Dump  (NOT served)
-│   ├── app/                # App Router pages, layout, favicon, globals.css
-│   ├── components/         # UI + MDX components
-│   ├── content/brain-dump/ # one .mdx file per topic  ← write content here
-│   └── lib/                # content loading + category metadata
-│
-├── brain-dump/             # GENERATED static export of brain-dump-app
-│   └── …                   # served at /brain-dump/  — do not edit by hand
-│
-├── .github/workflows/ci.yml  # CI: lint + typecheck + build on every PR
-└── AGENTS.md               # contributor / agent workflow rules
+├── .github/workflows/
+│   ├── ci.yml                # CI: lint + typecheck + build on every PR
+│   └── deploy.yml            # assembles + deploys the site to Pages on push
+└── AGENTS.md                 # contributor / agent workflow rules
 ```
+
+The built output (`apps/brain-dump/out/`) and the CI assembly dir (`_site/`) are
+git-ignored — never committed.
 
 ## Working on the homepage
 
-Plain HTML/CSS — edit `index.html` and `assets/css/style.css` directly. No build
-step.
+Plain HTML/CSS — edit `apps/homepage/index.html` and
+`apps/homepage/assets/css/style.css` directly. No build step.
 
 ## Working on Brain Dump
 
 ```bash
-cd brain-dump-app
+cd apps/brain-dump
 npm install
 npm run dev          # http://localhost:3000/brain-dump
 ```
 
-**Add a topic:** drop a new `.mdx` file in `brain-dump-app/content/brain-dump/`
-(see `brain-dump-app/README.md` for the frontmatter + available components).
+**Add a topic:** drop a new `.mdx` file in `apps/brain-dump/content/brain-dump/`
+(see `apps/brain-dump/README.md` for the frontmatter + available components).
 
 ## Build & deploy
 
-> **Note:** today the site is published by committing the Brain Dump static
-> export (`brain-dump/`) to the repo, which GitHub Pages serves from the branch.
-> Migrating to a CI-built deploy (no committed output) is tracked in
-> [issue #8](https://github.com/Jonwlin/Jonwlin.github.io/issues/8).
-
-For now, after changing Brain Dump source, regenerate the committed export:
-
-```bash
-cd brain-dump-app
-npm run deploy       # builds and refreshes ../brain-dump/
-```
-
-Then commit both the source and the regenerated `brain-dump/` output.
+Fully automated. **GitHub Actions** (`.github/workflows/deploy.yml`) builds the
+homepage + Brain Dump into one artifact and publishes it on every push to
+`master`; Pages **Source** is set to "GitHub Actions". Commit source only.
 
 ## Workflow
 
