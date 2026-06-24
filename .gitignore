@@ -18,9 +18,9 @@ yarn-error.log*
 node_modules/
 .npm
 
-# Next.js build artifacts (source app lives in apps/brain-dump/)
+# Next.js build artifacts (source app lives in apps/web/)
 .next/
-apps/brain-dump/out/
+apps/web/out/
 *.tsbuildinfo
 next-env.d.ts
 

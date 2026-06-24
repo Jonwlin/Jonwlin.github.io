@@ -13,12 +13,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  brain-dump:
-    name: Brain Dump (lint · typecheck · build)
+  site:
+    name: Site (lint · typecheck · build)
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/brain-dump
+        working-directory: apps/web
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: apps/brain-dump/package-lock.json
+          cache-dependency-path: apps/web/package-lock.json
 
       - name: Install dependencies
         run: npm ci
