@@ -2,64 +2,64 @@
 
 Jonathan W. Lin's personal website — [jonwlin.github.io](https://jonwlin.github.io).
 
-It's two pieces served together by **GitHub Pages**. The repo root is
-**source-only** — all source lives under `apps/`, and GitHub Actions assembles
-and deploys the published site (no build output is committed):
+A single **Next.js (App Router) + Tailwind + MDX** app (`apps/web/`), statically
+exported and served by **GitHub Pages**. The repo root is **source-only** —
+GitHub Actions builds and deploys the published site (no build output is
+committed). One build serves two sections:
 
-1. A hand-written static **homepage** (`apps/homepage/`), served at `/`.
-2. **🧠 Brain Dump** (`apps/brain-dump/`) — a Next.js app of guides, reviews, and
-   write-ups, statically exported and served at `/brain-dump/`.
+1. The **homepage** at `/` — `app/(site)/` (white / Lora + Cabin look).
+2. **🧠 Brain Dump** at `/brain-dump/` — `app/brain-dump/` (stone / monospace),
+   a collection of guides, reviews, and write-ups.
 
 ## Repository map
 
 ```
 .
-├── apps/
-│   ├── homepage/             # static homepage SOURCE
-│   │   ├── index.html        # the homepage (single page)
-│   │   └── assets/
-│   │       ├── css/style.css # all homepage styles (one consolidated file)
-│   │       ├── bootstrap/    # vendored Bootstrap 5 (CSS + JS)
-│   │       ├── fonts/        # Font Awesome webfonts
-│   │       ├── img/          # images + favicon
-│   │       └── docs/         # downloadable docs (e.g. project papers)
-│   │
-│   └── brain-dump/           # Next.js SOURCE for Brain Dump
-│       ├── app/              # App Router pages, layout, favicon, globals.css
-│       ├── components/       # UI + MDX components
-│       ├── content/brain-dump/ # one .mdx file per topic  ← write content here
-│       └── lib/              # content loading + category metadata
+├── apps/web/                 # the whole site (Next.js SOURCE)
+│   ├── app/
+│   │   ├── layout.tsx        # root layout: fonts (CSS vars), neutral <body>
+│   │   ├── globals.css       # @tailwind + .prose-bd (MDX content styles)
+│   │   ├── (site)/           # homepage shell (route group — not in the URL)
+│   │   │   ├── layout.tsx     # Navbar + white/serif shell
+│   │   │   └── page.tsx       # the homepage (projects inline)
+│   │   └── brain-dump/       # /brain-dump section (stone/mono shell)
+│   │       ├── layout.tsx
+│   │       ├── page.tsx       # index (search + filter grid)
+│   │       └── [slug]/page.tsx # topic detail (MDX)
+│   ├── components/           # Navbar, BrainDumpIndex, CategoryTag, mdx/
+│   ├── lib/                  # content loader (collection-aware) + metadata
+│   ├── public/               # homepage images + docs (served from /)
+│   └── content/brain-dump/   # one .mdx file per topic  ← write content here
 │
 ├── .github/workflows/
 │   ├── ci.yml                # CI: lint + typecheck + build on every PR
-│   └── deploy.yml            # assembles + deploys the site to Pages on push
+│   └── deploy.yml            # builds + deploys the site to Pages on push
 └── AGENTS.md                 # contributor / agent workflow rules
 ```
 
-The built output (`apps/brain-dump/out/`) and the CI assembly dir (`_site/`) are
+The built output (`apps/web/out/`) and the CI assembly dir (`_site/`) are
 git-ignored — never committed.
 
-## Working on the homepage
-
-Plain HTML/CSS — edit `apps/homepage/index.html` and
-`apps/homepage/assets/css/style.css` directly. No build step.
-
-## Working on Brain Dump
+## Working on the site
 
 ```bash
-cd apps/brain-dump
+cd apps/web
 npm install
-npm run dev          # http://localhost:3000/brain-dump
+npm run dev          # http://localhost:3000/           (homepage)
+                     # http://localhost:3000/brain-dump  (Brain Dump)
 ```
 
-**Add a topic:** drop a new `.mdx` file in `apps/brain-dump/content/brain-dump/`
-(see `apps/brain-dump/README.md` for the frontmatter + available components).
+- **Homepage:** edit `app/(site)/page.tsx` (project cards are an inline array)
+  and `components/Navbar.tsx`. Styling is Tailwind; assets live in `public/`.
+- **Add a Brain Dump topic:** drop a new `.mdx` file in
+  `apps/web/content/brain-dump/` (see `apps/web/README.md` for frontmatter).
 
 ## Build & deploy
 
 Fully automated. **GitHub Actions** (`.github/workflows/deploy.yml`) builds the
-homepage + Brain Dump into one artifact and publishes it on every push to
-`master`; Pages **Source** is set to "GitHub Actions". Commit source only.
+app and publishes `apps/web/out/` (the export root *is* the site root — no
+`basePath`) on every push to `master`; Pages **Source** is set to "GitHub
+Actions". Commit source only.
 
 ## Workflow
 

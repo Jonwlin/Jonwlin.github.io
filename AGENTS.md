@@ -7,14 +7,14 @@ Guidance for AI agents (and humans) working in this repository.
 Personal website for Jonathan W. Lin, served via **GitHub Pages** at
 `https://jonwlin.github.io/`.
 
-The repo root is **source-only**; the published site is assembled and deployed
-by GitHub Actions. All source lives under `apps/`:
+The repo root is **source-only**; the published site is built and deployed by
+GitHub Actions. All source lives in a single Next.js 14 (App Router) + Tailwind
++ MDX app, **statically exported** (no `basePath` — the export root is the site
+root):
 
-- **Homepage:** static `apps/homepage/index.html` (Bootstrap "Grayscale" theme)
-  + `apps/homepage/assets/`. Served at `/`.
-- **Brain Dump:** a Next.js 14 (App Router) + Tailwind + MDX app in
-  `apps/brain-dump/`, **statically exported** (basePath `/brain-dump`) and served
-  at `/brain-dump/`. See `apps/brain-dump/README.md` for details.
+- **App:** `apps/web/`. See `apps/web/README.md` for details.
+- **Homepage:** `app/(site)/` (white / Lora + Cabin "Grayscale" look), at `/`.
+- **Brain Dump:** `app/brain-dump/` (stone / monospace), at `/brain-dump/`.
 
 ## Git & PR workflow — REQUIRED
 
@@ -44,21 +44,21 @@ These rules are mandatory. Do not bypass them.
 - Merge / accept / close a PR.
 - Force-push to shared branches.
 
-## Brain Dump: build & deploy
+## Build & deploy
 
 The site is **built and deployed by GitHub Actions** on every push to `master`
 (`.github/workflows/deploy.yml`). You no longer build or commit the static
 output — just edit source and merge.
 
-After editing `apps/brain-dump/` source or `apps/brain-dump/content/brain-dump/*.mdx`:
+After editing `apps/web/` source or `apps/web/content/brain-dump/*.mdx`:
 
 ```bash
-cd apps/brain-dump
+cd apps/web
 npm install          # first time only
-npm run dev          # http://localhost:3000/brain-dump (local preview)
+npm run dev          # http://localhost:3000/ (homepage), /brain-dump (Brain Dump)
 npm run build        # optional: verify the static export builds (-> out/)
 ```
 
-Commit **only** the source changes. Build output (`apps/brain-dump/out/`) and the
-CI assembly dir (`_site/`) are git-ignored and produced by CI — never commit
-them. Pages **Source** is set to "GitHub Actions" (not "Deploy from a branch").
+Commit **only** the source changes. Build output (`apps/web/out/`) and the CI
+assembly dir (`_site/`) are git-ignored and produced by CI — never commit them.
+Pages **Source** is set to "GitHub Actions" (not "Deploy from a branch").

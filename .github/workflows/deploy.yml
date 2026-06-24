@@ -33,26 +33,23 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: apps/brain-dump/package-lock.json
+          cache-dependency-path: apps/web/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/brain-dump
+        working-directory: apps/web
 
-      - name: Build Brain Dump (Next.js static export)
+      - name: Build site (Next.js static export)
         run: npm run build
-        working-directory: apps/brain-dump
+        working-directory: apps/web
 
       - name: Assemble site artifact
         run: |
           set -euo pipefail
           rm -rf _site
-          mkdir -p _site
-          # Static homepage (source) at the root.
-          cp apps/homepage/index.html _site/index.html
-          cp -r apps/homepage/assets _site/assets
-          # Next.js export (basePath: /brain-dump) served under /brain-dump/.
-          cp -r apps/brain-dump/out _site/brain-dump
+          # The Next.js export root IS the site root (homepage at /, Brain Dump
+          # at /brain-dump/). Just publish it as-is.
+          cp -r apps/web/out _site
           # Safety net so the _next/ asset folder is served as-is.
           touch _site/.nojekyll
 

@@ -20,9 +20,32 @@ const config: Config = {
         divider: "#d6d3d1", // stone-300 — subtle dividers
         edge: "#a8a29e", // stone-400 — card hover border
         focus: "#7c3aed", // violet-600 — input focus border
+
+        // Homepage palette (Bootstrap "Grayscale" theme, ported).
+        "home-bg": "#ffffff", // masthead / footer background
+        "home-section": "#f4f4f4", // projects section background
+        "home-card": "#ebebeb", // project card background
+        "home-ink": "#313437", // projects section text
+        "home-toggler": "#a09494", // mobile hamburger button
+        "home-border": "#cccccc", // footer social icon border
+        "home-footer": "#4b4c4d", // footer text
       },
       fontFamily: {
         mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
+        serif: [
+          "var(--font-lora)",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+        heading: [
+          "var(--font-cabin)",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
       },
     },
   },
