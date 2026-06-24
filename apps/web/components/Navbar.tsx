@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 bg-transparent py-5 text-[1rem] text-black ${HEADING}`}
+      className={`w-full bg-transparent py-5 text-[1rem] text-black ${HEADING}`}
     >
       <div className="mx-auto max-w-screen-xl px-4">
         {/* Hamburger — mobile only, right-aligned. */}

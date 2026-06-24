@@ -132,7 +132,7 @@ export default function HomePage() {
   return (
     <>
       {/* Masthead */}
-      <header className="bg-home-bg px-5 pt-[90px] pb-[70px]">
+      <header className="bg-home-bg px-5 pt-[30px] pb-[70px]">
         <div className="p-5 text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
