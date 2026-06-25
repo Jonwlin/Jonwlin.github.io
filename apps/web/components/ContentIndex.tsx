@@ -2,11 +2,26 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { CATEGORY_ORDER } from "@/lib/categories";
 import { CategoryTag } from "@/components/CategoryTag";
-import type { TopicMeta } from "@/lib/content";
 
-type Filter = "all" | (typeof CATEGORY_ORDER)[number];
+// Reusable search/filter/grid index, shared by Brain Dump and Recipes. Each
+// section supplies its own items, category list/colors, link base, and header
+// copy; the interaction (search box, category filter, grid/list toggle) is
+// identical across sections.
+
+type ColorMap = Record<string, { bg: string; text: string }>;
+
+export type ContentIndexItem = {
+  title: string;
+  slug: string;
+  category: string;
+  description: string;
+  tags: string[];
+  date: string; // ISO yyyy-mm-dd
+  /** Extra searchable text not shown on the card (e.g. ingredient names). */
+  keywords?: string[];
+};
+
 type View = "grid" | "list";
 
 function formatDate(iso: string): string {
@@ -45,24 +60,50 @@ function ListIcon() {
   );
 }
 
-export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
+export default function ContentIndex({
+  items,
+  categoryOrder,
+  categoryColors,
+  linkBase,
+  title,
+  titleSuffix,
+  subtitle,
+  itemNoun = "entry",
+  itemNounPlural = "entries",
+}: {
+  items: ContentIndexItem[];
+  categoryOrder: readonly string[];
+  categoryColors?: ColorMap;
+  linkBase: string; // e.g. "/brain-dump" or "/recipes"
+  title: string;
+  titleSuffix?: string;
+  subtitle?: string;
+  itemNoun?: string;
+  itemNounPlural?: string;
+}) {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<string>("all");
   const [view, setView] = useState<View>("grid");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return topics.filter((t) => {
+    return items.filter((t) => {
       if (filter !== "all" && t.category !== filter) return false;
       if (!q) return true;
-      const haystack = [t.title, t.description, ...t.tags, t.category]
+      const haystack = [
+        t.title,
+        t.description,
+        ...t.tags,
+        t.category,
+        ...(t.keywords ?? []),
+      ]
         .join(" ")
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [topics, query, filter]);
+  }, [items, query, filter]);
 
-  const filters: Filter[] = ["all", ...CATEGORY_ORDER];
+  const filters: string[] = ["all", ...categoryOrder];
 
   return (
     <main
@@ -80,12 +121,17 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
       {/* Header — no border/decoration below */}
       <header>
         <h1 className="text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">
-          brain dump{" "}
-          <span className="font-normal text-muted">/ notes &amp; rabbit holes</span>
+          {title}
+          {titleSuffix ? (
+            <>
+              {" "}
+              <span className="font-normal text-muted">{titleSuffix}</span>
+            </>
+          ) : null}
         </h1>
-        <p className="mt-1 text-[0.8rem] text-secondary">
-          things i spent too long researching
-        </p>
+        {subtitle ? (
+          <p className="mt-1 text-[0.8rem] text-secondary">{subtitle}</p>
+        ) : null}
       </header>
 
       {/* Toolbar */}
@@ -150,7 +196,7 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
 
       {/* Entry count */}
       <p className="mt-6 text-[0.75rem] text-muted">
-        {filtered.length} {filtered.length === 1 ? "entry" : "entries"}
+        {filtered.length} {filtered.length === 1 ? itemNoun : itemNounPlural}
       </p>
 
       {/* Results */}
@@ -161,11 +207,11 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
           {filtered.map((t) => (
             <Link
               key={t.slug}
-              href={`/brain-dump/${t.slug}`}
+              href={`${linkBase}/${t.slug}`}
               className="flex min-h-[140px] flex-col rounded-[4px] border border-line bg-surface px-6 py-5 transition-colors hover:border-edge hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
             >
               <div className="flex items-center justify-between">
-                <CategoryTag category={t.category} />
+                <CategoryTag category={t.category} colors={categoryColors} />
                 <time className="text-[0.7rem] text-muted" dateTime={t.date}>
                   {formatDate(t.date)}
                 </time>
@@ -184,11 +230,11 @@ export default function BrainDumpIndex({ topics }: { topics: TopicMeta[] }) {
           {filtered.map((t) => (
             <Link
               key={t.slug}
-              href={`/brain-dump/${t.slug}`}
+              href={`${linkBase}/${t.slug}`}
               className="block border-b border-line bg-surface px-4 py-4 transition-colors hover:bg-[#fafaf9]"
             >
               <div className="flex items-center justify-between">
-                <CategoryTag category={t.category} />
+                <CategoryTag category={t.category} colors={categoryColors} />
                 <time className="text-[0.7rem] text-muted" dateTime={t.date}>
                   {formatDate(t.date)}
                 </time>
