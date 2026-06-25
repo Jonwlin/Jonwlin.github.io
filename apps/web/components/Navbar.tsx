@@ -11,6 +11,7 @@ const LINKS = [
   { label: "Linkedin", href: "https://www.linkedin.com/in/xjonathan", external: true },
   { label: "Kaggle", href: "https://www.kaggle.com/jwlin17", external: true },
   { label: "Brain Dump", href: "/brain-dump", external: false },
+  { label: "Recipes", href: "/recipes", external: false },
 ];
 
 function BarsIcon() {
