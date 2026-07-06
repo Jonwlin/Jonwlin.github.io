@@ -8,7 +8,7 @@ GitHub Actions builds and deploys the published site (no build output is
 committed). One build serves two sections:
 
 1. The **homepage** at `/` — `app/(site)/` (white / Lora + Cabin look).
-2. **🧠 Brain Dump** at `/brain-dump/` — `app/brain-dump/` (stone / monospace),
+2. **🧠 AI Slop** at `/ai-slop/` — `app/ai-slop/` (stone / monospace),
    a collection of guides, reviews, and write-ups.
 
 ## Repository map
@@ -22,14 +22,14 @@ committed). One build serves two sections:
 │   │   ├── (site)/           # homepage shell (route group — not in the URL)
 │   │   │   ├── layout.tsx     # Navbar + white/serif shell
 │   │   │   └── page.tsx       # the homepage (projects inline)
-│   │   └── brain-dump/       # /brain-dump section (stone/mono shell)
+│   │   └── ai-slop/       # /ai-slop section (stone/mono shell)
 │   │       ├── layout.tsx
 │   │       ├── page.tsx       # index (search + filter grid)
 │   │       └── [slug]/page.tsx # topic detail (MDX)
-│   ├── components/           # Navbar, BrainDumpIndex, CategoryTag, mdx/
+│   ├── components/           # Navbar, AiSlopIndex, CategoryTag, mdx/
 │   ├── lib/                  # content loader (collection-aware) + metadata
 │   ├── public/               # homepage images + docs (served from /)
-│   └── content/brain-dump/   # one .mdx file per topic  ← write content here
+│   └── content/ai-slop/   # one .mdx file per topic  ← write content here
 │
 ├── .github/workflows/
 │   ├── ci.yml                # CI: lint + typecheck + build on every PR
@@ -46,13 +46,13 @@ git-ignored — never committed.
 cd apps/web
 npm install
 npm run dev          # http://localhost:3000/           (homepage)
-                     # http://localhost:3000/brain-dump  (Brain Dump)
+                     # http://localhost:3000/ai-slop  (AI Slop)
 ```
 
 - **Homepage:** edit `app/(site)/page.tsx` (project cards are an inline array)
   and `components/Navbar.tsx`. Styling is Tailwind; assets live in `public/`.
-- **Add a Brain Dump topic:** drop a new `.mdx` file in
-  `apps/web/content/brain-dump/` (see `apps/web/README.md` for frontmatter).
+- **Add a AI Slop topic:** drop a new `.mdx` file in
+  `apps/web/content/ai-slop/` (see `apps/web/README.md` for frontmatter).
 
 ## Build & deploy
 

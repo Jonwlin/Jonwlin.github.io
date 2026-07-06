@@ -11,7 +11,7 @@ import { mdxComponents } from "@/components/mdx";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllSlugs("brain-dump").map((slug) => ({ slug }));
+  return getAllSlugs("ai-slop").map((slug) => ({ slug }));
 }
 
 export function generateMetadata({
@@ -19,10 +19,10 @@ export function generateMetadata({
 }: {
   params: { slug: string };
 }): Metadata {
-  const topic = getTopicBySlug("brain-dump", params.slug);
-  if (!topic) return { title: "not found — brain dump" };
+  const topic = getTopicBySlug("ai-slop", params.slug);
+  if (!topic) return { title: "not found — ai slop" };
   return {
-    title: `${topic.title} — brain dump`,
+    title: `${topic.title} — ai slop`,
     description: topic.description,
   };
 }
@@ -42,13 +42,13 @@ function formatDate(iso: string): string {
 }
 
 export default function TopicPage({ params }: { params: { slug: string } }) {
-  const topic = getTopicBySlug("brain-dump", params.slug);
+  const topic = getTopicBySlug("ai-slop", params.slug);
   if (!topic) notFound();
 
   return (
     <main className="mx-auto max-w-[640px] px-8 py-12">
       <Link
-        href="/brain-dump"
+        href="/ai-slop"
         className="text-[0.75rem] font-medium text-secondary hover:text-ink"
       >
         ← back

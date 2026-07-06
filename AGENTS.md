@@ -14,7 +14,7 @@ root):
 
 - **App:** `apps/web/`. See `apps/web/README.md` for details.
 - **Homepage:** `app/(site)/` (white / Lora + Cabin "Grayscale" look), at `/`.
-- **Brain Dump:** `app/brain-dump/` (stone / monospace), at `/brain-dump/`.
+- **AI Slop:** `app/ai-slop/` (stone / monospace), at `/ai-slop/`.
 
 ## Git & PR workflow — REQUIRED
 
@@ -50,12 +50,12 @@ The site is **built and deployed by GitHub Actions** on every push to `master`
 (`.github/workflows/deploy.yml`). You no longer build or commit the static
 output — just edit source and merge.
 
-After editing `apps/web/` source or `apps/web/content/brain-dump/*.mdx`:
+After editing `apps/web/` source or `apps/web/content/ai-slop/*.mdx`:
 
 ```bash
 cd apps/web
 npm install          # first time only
-npm run dev          # http://localhost:3000/ (homepage), /brain-dump (Brain Dump)
+npm run dev          # http://localhost:3000/ (homepage), /ai-slop (AI Slop)
 npm run build        # optional: verify the static export builds (-> out/)
 ```
 

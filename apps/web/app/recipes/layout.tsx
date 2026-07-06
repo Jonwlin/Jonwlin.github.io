@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description: "things i actually cook, with timers and a serving-size knob",
 };
 
-// Recipes share the Brain Dump identity: monospace + warm stone, painted over
+// Recipes share the AI Slop identity: monospace + warm stone, painted over
 // the full viewport so the neutral document body never shows through.
 export default function RecipesLayout({
   children,
