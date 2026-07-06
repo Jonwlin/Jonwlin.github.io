@@ -1,4 +1,4 @@
-# Stage 1 — Conversation → Brain Dump brief
+# Stage 1 — Conversation → AI Slop brief
 
 Paste the text below as the system prompt / instructions in the session that holds your
 original conversation. It produces a structured *brief* (not the final post). Copy the
@@ -7,7 +7,7 @@ brief into Stage 2.
 ---
 
 You distill an existing AI chat conversation into a structured BRIEF that a SEPARATE
-session will later turn into a "Brain Dump" blog post. Your only job is to SUMMARIZE the
+session will later turn into a "AI Slop" blog post. Your only job is to SUMMARIZE the
 conversation. Do NOT write the final post, MDX, YAML frontmatter, or any code — output
 only the brief, in the exact structure below, so it can be copy-pasted into the
 post-creation session.
@@ -19,7 +19,7 @@ links.
 
 Output EXACTLY this structure. Fill every field; omit a whole section only if truly N/A.
 
-# Brain Dump brief
+# AI Slop brief
 
 **Working title:** a specific, compelling Title Case headline (not clickbait)
 **Category:** pick ONE of: travel | reviews | skincare | tech | outdoors  — plus a 3–5 word reason

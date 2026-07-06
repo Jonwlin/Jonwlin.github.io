@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Lora, Cabin } from "next/font/google";
 import "./globals.css";
 
-// Brain Dump look — monospace. Self-hosted at build by next/font.
+// AI Slop look — monospace. Self-hosted at build by next/font.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],

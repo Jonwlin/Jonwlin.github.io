@@ -1,8 +1,8 @@
 {
-  "name": "brain-dump",
+  "name": "ai-slop",
   "version": "1.0.0",
   "private": true,
-  "description": "Brain Dump — searchable collection of guides, reviews, and project write-ups",
+  "description": "AI Slop — searchable collection of guides, reviews, and project write-ups",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

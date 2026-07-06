@@ -5,7 +5,7 @@ type ColorMap = Record<string, { bg: string; text: string }>;
 // Small colored category pill, shared by the index cards and the detail pages.
 // Pure presentational component — safe in both client and server components.
 // Pass `colors` to supply a different palette (e.g. recipe categories); defaults
-// to the Brain Dump category colors.
+// to the AI Slop category colors.
 export function CategoryTag({
   category,
   colors = CATEGORY_COLORS,

@@ -6,7 +6,7 @@ Jonathan W. Lin's personal website — a single **Next.js (App Router) + Tailwin
 It serves three sections from one build:
 
 - **Homepage** at `/` — `app/(site)/` (white / Lora + Cabin "Grayscale" look).
-- **Brain Dump** at `/brain-dump/` — `app/brain-dump/` (stone / IBM Plex Mono),
+- **AI Slop** at `/ai-slop/` — `app/ai-slop/` (stone / IBM Plex Mono),
   a searchable, filterable collection of guides, reviews, and write-ups.
 - **Recipes** at `/recipes/` — `app/recipes/` (stone / IBM Plex Mono), recipes
   with search, a serving-size adjuster, ingredient checkboxes, per-step timers
@@ -14,7 +14,7 @@ It serves three sections from one build:
 
 ```
 https://jonwlin.github.io/            # homepage
-https://jonwlin.github.io/brain-dump/ # Brain Dump
+https://jonwlin.github.io/ai-slop/ # AI Slop
 https://jonwlin.github.io/recipes/    # Recipes
 ```
 
@@ -30,10 +30,10 @@ apps/web/
 │   ├── (site)/               # homepage shell (route group — not in the URL)
 │   │   ├── layout.tsx        # Navbar + white/serif shell
 │   │   └── page.tsx          # the homepage (projects inline)
-│   ├── brain-dump/           # /brain-dump section
+│   ├── ai-slop/           # /ai-slop section
 │   │   ├── layout.tsx        # stone/mono shell + section metadata
-│   │   ├── page.tsx          # /brain-dump index (server -> ContentIndex)
-│   │   └── [slug]/page.tsx   # /brain-dump/<slug> topic detail (MDX)
+│   │   ├── page.tsx          # /ai-slop index (server -> ContentIndex)
+│   │   └── [slug]/page.tsx   # /ai-slop/<slug> topic detail (MDX)
 │   └── recipes/              # /recipes section
 │       ├── layout.tsx        # stone/mono shell + section metadata
 │       ├── page.tsx          # /recipes index (server -> ContentIndex)
@@ -46,7 +46,7 @@ apps/web/
 │   └── mdx/index.tsx         # MDX components (Aside)
 ├── lib/
 │   ├── home.ts               # shared homepage heading className
-│   ├── categories.ts         # Brain Dump category metadata (client-safe)
+│   ├── categories.ts         # AI Slop category metadata (client-safe)
 │   ├── recipe-categories.ts  # Recipe category metadata (client-safe)
 │   ├── content.ts            # collection-aware MDX loader (server)
 │   ├── recipes.ts            # recipe MDX loader + structured schema (server)
@@ -54,18 +54,18 @@ apps/web/
 │   └── alarm.ts              # Web Audio timer alarm (no deps)
 ├── public/                   # homepage images + docs (served from /)
 │   └── recipes/<slug>/       # optional recipe photos (hero + per-step)
-├── content/brain-dump/       # one .mdx file per Brain Dump topic
+├── content/ai-slop/       # one .mdx file per AI Slop topic
 └── content/recipes/          # one .mdx file per recipe
 ```
 
-The Brain Dump loader is **collection-aware**: `getAllTopicMeta("brain-dump")`,
-`getTopicBySlug("brain-dump", slug)`, etc. read `content/<collection>/`. Recipes
+The AI Slop loader is **collection-aware**: `getAllTopicMeta("ai-slop")`,
+`getTopicBySlug("ai-slop", slug)`, etc. read `content/<collection>/`. Recipes
 use a sibling loader (`lib/recipes.ts`) with a richer structured schema, and both
 sections share the same search/filter grid via `components/ContentIndex.tsx`.
 
-## Add a new Brain Dump topic
+## Add a new AI Slop topic
 
-Drop a new `.mdx` file in `content/brain-dump/` with frontmatter:
+Drop a new `.mdx` file in `content/ai-slop/` with frontmatter:
 
 ```mdx
 ---
@@ -121,7 +121,7 @@ directly).
 ```bash
 npm install
 npm run dev          # http://localhost:3000/  (homepage)
-                     # http://localhost:3000/brain-dump  (Brain Dump)
+                     # http://localhost:3000/ai-slop  (AI Slop)
                      # http://localhost:3000/recipes      (Recipes)
 ```
 

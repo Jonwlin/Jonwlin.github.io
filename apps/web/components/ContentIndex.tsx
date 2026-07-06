@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { CategoryTag } from "@/components/CategoryTag";
 
-// Reusable search/filter/grid index, shared by Brain Dump and Recipes. Each
+// Reusable search/filter/grid index, shared by AI Slop and Recipes. Each
 // section supplies its own items, category list/colors, link base, and header
 // copy; the interaction (search box, category filter, grid/list toggle) is
 // identical across sections.
@@ -68,16 +68,18 @@ export default function ContentIndex({
   title,
   titleSuffix,
   subtitle,
+  disclaimer,
   itemNoun = "entry",
   itemNounPlural = "entries",
 }: {
   items: ContentIndexItem[];
   categoryOrder: readonly string[];
   categoryColors?: ColorMap;
-  linkBase: string; // e.g. "/brain-dump" or "/recipes"
+  linkBase: string; // e.g. "/ai-slop" or "/recipes"
   title: string;
   titleSuffix?: string;
   subtitle?: string;
+  disclaimer?: string;
   itemNoun?: string;
   itemNounPlural?: string;
 }) {
@@ -131,6 +133,11 @@ export default function ContentIndex({
         </h1>
         {subtitle ? (
           <p className="mt-1 text-[0.8rem] text-secondary">{subtitle}</p>
+        ) : null}
+        {disclaimer ? (
+          <p className="mt-4 max-w-[52ch] rounded-[4px] border border-line bg-surface px-3 py-2 text-[0.7rem] leading-[1.55] text-muted">
+            {disclaimer}
+          </p>
         ) : null}
       </header>
 

@@ -1,6 +1,6 @@
 // Recipe category metadata. No server-only imports here so this file is safe to
 // use from both client and server components. Labels are lowercase by design.
-// Mirrors lib/categories.ts (Brain Dump) but with a food-oriented palette so the
+// Mirrors lib/categories.ts (AI Slop) but with a food-oriented palette so the
 // shared CategoryTag / ContentIndex can render recipe pills with their own colors.
 
 export type RecipeCategoryKey =

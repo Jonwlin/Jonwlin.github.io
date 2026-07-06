@@ -10,7 +10,7 @@ const LINKS = [
   { label: "Github", href: "https://github.com/Jonwlin", external: true },
   { label: "Linkedin", href: "https://www.linkedin.com/in/xjonathan", external: true },
   { label: "Kaggle", href: "https://www.kaggle.com/jwlin17", external: true },
-  { label: "Brain Dump", href: "/brain-dump", external: false },
+  { label: "AI Slop", href: "/ai-slop", external: false },
   { label: "Recipes", href: "/recipes", external: false },
 ];
 

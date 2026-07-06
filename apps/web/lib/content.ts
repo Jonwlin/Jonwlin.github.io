@@ -3,7 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import type { CategoryKey } from "./categories";
 
-// Each MDX collection is a folder under content/, e.g. content/brain-dump/.
+// Each MDX collection is a folder under content/, e.g. content/ai-slop/.
 // Pass the collection name to the helpers below. Adding a second collection
 // (a blog, notes, etc.) is just a new folder — no code changes here.
 const CONTENT_ROOT = path.join(process.cwd(), "content");
