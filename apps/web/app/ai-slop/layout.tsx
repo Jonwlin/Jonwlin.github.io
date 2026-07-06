@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "brain dump — Jonathan W. Lin",
+  title: "ai slop — Jonathan W. Lin",
   description: "things i spent too long researching",
 };
 
-// The Brain Dump identity: monospace + warm stone. Painted over the full
+// The AI Slop identity: monospace + warm stone. Painted over the full
 // viewport height so the neutral document body never shows through.
-export default function BrainDumpLayout({
+export default function AiSlopLayout({
   children,
 }: {
   children: React.ReactNode;

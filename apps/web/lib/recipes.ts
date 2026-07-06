@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import type { RecipeCategoryKey } from "./recipe-categories";
 
 // Recipes are MDX files under content/recipes/, parsed at build time. The schema
-// is richer than Brain Dump topics (structured ingredients/steps/revisions) so it
+// is richer than AI Slop topics (structured ingredients/steps/revisions) so it
 // has its own loader, but it follows the same content/<collection>/ + gray-matter
 // pattern as lib/content.ts.
 const RECIPES_DIR = path.join(process.cwd(), "content", "recipes");

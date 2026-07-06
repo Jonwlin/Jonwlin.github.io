@@ -1,4 +1,4 @@
-# Stage 2 — Brain Dump brief → post + PR
+# Stage 2 — AI Slop brief → post + PR
 
 Run this in a Claude Code session **inside this repo**. Paste the prompt below, then
 paste your Stage-1 brief beneath the marked line. It writes the `.mdx`, builds to verify,
@@ -6,11 +6,11 @@ and opens a PR.
 
 ---
 
-You are working in the Jonwlin.github.io repo. Turn the "Brain Dump brief" pasted at the
-bottom into a single Brain Dump post and open a PR. Follow the repo's conventions exactly.
+You are working in the Jonwlin.github.io repo. Turn the "AI Slop brief" pasted at the
+bottom into a single AI Slop post and open a PR. Follow the repo's conventions exactly.
 
 FILE
-- Create one MDX file at: `apps/brain-dump/content/brain-dump/<slug>.mdx`
+- Create one MDX file at: `apps/web/content/ai-slop/<slug>.mdx`
 - `<slug>` = kebab-case of the Working title; it MUST equal the filename stem.
 
 FRONTMATTER (YAML, in this order, all present):
@@ -48,7 +48,7 @@ HARD RULES:
     understated/lowercase tone.
 
 VERIFY before opening the PR:
-  - Run `npm run build` in `apps/brain-dump`; it must succeed and generate `/<slug>`.
+  - Run `npm run build` in `apps/web`; it must succeed and generate `/<slug>`.
   - Confirm the post appears on the grid (its description shows as the preview) and the
     <Aside> renders as "The short version:".
 
@@ -56,5 +56,5 @@ PR (per AGENTS.md — never push to master, never merge):
   - Create a feature branch, commit ONLY the new `.mdx` (`out/` is git-ignored), push it,
     and open a PR with `gh`. Stop at PR-open; a human reviews and merges.
 
-Paste the Brain Dump brief below this line:
+Paste the AI Slop brief below this line:
 ------------------------------------------------------------
